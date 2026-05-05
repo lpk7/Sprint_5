@@ -6,7 +6,7 @@ import data
 
 class TestCreateAdNotLogin:
     def test_create_ad_user_is_not_login_fail(self, driver):
-        driver.get(data.URL)
+        driver.get(data.STAND)
 
         WebDriverWait(driver, 5).until(
             expected_conditions.element_to_be_clickable(
@@ -15,10 +15,13 @@ class TestCreateAdNotLogin:
         )
 
         driver.find_element(*AutorisationLocators.NEW_PUBLISH_BUTTON).click()
+        WebDriverWait(driver, 5).until(
+            expected_conditions.visibility_of_element_located(
+                AutorisationLocators.POPUP_HEADING
+            )
+        )
 
         assert (
             driver.find_element(*AutorisationLocators.POPUP_HEADING).text
             == "Чтобы разместить объявление, авторизуйтесь"
         )
-
-        driver.quit()

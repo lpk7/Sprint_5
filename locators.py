@@ -29,7 +29,7 @@ class AutorisationLocators:
     # Кнопка Разместить объявление
     NEW_PUBLISH_BUTTON = By.XPATH, '//button[contains(text(), "Разместить")]'
     # Заголовок модалки про авторизация
-    POPUP_HEADING = By.CSS_SELECTOR, ".h1"
+    POPUP_HEADING = By.XPATH, "//form[@class='popUp_shell__LuyqR']//h1[@class='h1']"
 
     # Поля формы создания:
     # Название

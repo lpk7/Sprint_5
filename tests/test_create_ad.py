@@ -2,13 +2,14 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from locators import AutorisationLocators
 import data
+import helpers
 
 
 class TestCreateAd:
-    def test_create_ad_success(self, driver, price):
+    def test_create_ad_success(self, driver):
         name = "Продам мопед"
-
-        driver.get(data.URL)
+        price = helpers.price()
+        driver.get(data.STAND)
 
         WebDriverWait(driver, 5).until(
             expected_conditions.element_to_be_clickable(
@@ -17,6 +18,12 @@ class TestCreateAd:
         )
 
         driver.find_element(*AutorisationLocators.LOGIN_BUTTON).click()
+        WebDriverWait(driver, 5).until(
+            expected_conditions.visibility_of_element_located(
+                AutorisationLocators.POPUP_HEADING
+            )
+        )
+
         driver.find_element(*AutorisationLocators.EMAIL_FIELD).send_keys(data.EMAIL)
         driver.find_element(*AutorisationLocators.PASSWORD_FIELD).send_keys(
             data.PASSWORD
@@ -42,16 +49,12 @@ class TestCreateAd:
         driver.find_element(*AutorisationLocators.PRICE_FIELD).send_keys(price)
         driver.find_element(*AutorisationLocators.PUBLISH_BUTTON).click()
 
-        WebDriverWait(driver, 5).until(expected_conditions.url_to_be(data.URL))
+        WebDriverWait(driver, 5).until(expected_conditions.url_to_be(data.STAND))
 
         driver.find_element(*AutorisationLocators.USER_PROFILE_BUTTON).click()
         WebDriverWait(driver, 5).until(
-            expected_conditions.visibility_of_element_located(
-                AutorisationLocators.MY_ADS
-            )
+            expected_conditions.element_to_be_clickable(AutorisationLocators.NEW_ADS)
         )
         ads = driver.find_elements(*AutorisationLocators.NEW_ADS)
 
-        assert any(ad.text == name for ad in ads)
-
-        driver.quit()
+        assert any(ad.text == "Продам мопед" for ad in ads)

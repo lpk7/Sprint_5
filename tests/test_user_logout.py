@@ -7,7 +7,7 @@ import data
 class TestUserLogout:
 
     def test_logout_user_success(self, driver):
-        driver.get(data.URL)
+        driver.get(data.STAND)
 
         WebDriverWait(driver, 5).until(
             expected_conditions.visibility_of_element_located(
@@ -16,7 +16,11 @@ class TestUserLogout:
         )
 
         driver.find_element(*AutorisationLocators.LOGIN_BUTTON).click()
-
+        WebDriverWait(driver, 5).until(
+            expected_conditions.element_to_be_clickable(
+                AutorisationLocators.NEW_ACC_BUTTON
+            )
+        )
         driver.find_element(*AutorisationLocators.EMAIL_FIELD).send_keys(data.EMAIL)
         driver.find_element(*AutorisationLocators.PASSWORD_FIELD).send_keys(
             data.PASSWORD
@@ -39,7 +43,7 @@ class TestUserLogout:
         avatar = driver.find_elements(*AutorisationLocators.USER_AVATAR)
 
         assert (
-            driver.current_url == data.URL
+            driver.current_url == data.STAND
             and not len(user_name)
             and not len(avatar)
             and driver.find_element(*AutorisationLocators.LOGIN_BUTTON).text
