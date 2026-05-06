@@ -1,7 +1,7 @@
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from locators import AutorisationLocators
-import data
+from data import Links, UserCredentials
 import helpers
 
 
@@ -9,7 +9,7 @@ class TestCreateAd:
     def test_create_ad_success(self, driver):
         name = "Продам мопед"
         price = helpers.price()
-        driver.get(data.STAND)
+        driver.get(Links.STAND)
 
         WebDriverWait(driver, 5).until(
             expected_conditions.element_to_be_clickable(
@@ -24,9 +24,9 @@ class TestCreateAd:
             )
         )
 
-        driver.find_element(*AutorisationLocators.EMAIL_FIELD).send_keys(data.EMAIL)
+        driver.find_element(*AutorisationLocators.EMAIL_FIELD).send_keys(UserCredentials.EMAIL)
         driver.find_element(*AutorisationLocators.PASSWORD_FIELD).send_keys(
-            data.PASSWORD
+            UserCredentials.PASSWORD
         )
         driver.find_element(*AutorisationLocators.SIGNIN_BUTTON).click()
 
@@ -49,7 +49,7 @@ class TestCreateAd:
         driver.find_element(*AutorisationLocators.PRICE_FIELD).send_keys(price)
         driver.find_element(*AutorisationLocators.PUBLISH_BUTTON).click()
 
-        WebDriverWait(driver, 5).until(expected_conditions.url_to_be(data.STAND))
+        WebDriverWait(driver, 5).until(expected_conditions.url_to_be(Links.STAND))
 
         driver.find_element(*AutorisationLocators.USER_PROFILE_BUTTON).click()
         WebDriverWait(driver, 5).until(

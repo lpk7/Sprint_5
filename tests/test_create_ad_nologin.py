@@ -1,12 +1,12 @@
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from locators import AutorisationLocators
-import data
+from data import Links
 
 
 class TestCreateAdNotLogin:
     def test_create_ad_user_is_not_login_fail(self, driver):
-        driver.get(data.STAND)
+        driver.get(Links.STAND)
 
         WebDriverWait(driver, 5).until(
             expected_conditions.element_to_be_clickable(
